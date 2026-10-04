@@ -1,0 +1,14 @@
+/node_modules
+/.next/
+/out/
+.env*
+!.env.example
+*.tsbuildinfo
+next-env.d.ts
+.DS_Store
+/test-results/
+/playwright-report/
+/agents/**/.venv/
+/agents/**/__pycache__/
+/agents/**/tmp/
+/agents/langgraph/.langgraph_api/

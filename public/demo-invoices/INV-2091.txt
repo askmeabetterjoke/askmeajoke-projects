@@ -1,0 +1,4 @@
+Delta Airlines receipt INV-2091
+Date: 2026-05-18
+Total: USD 428.00
+Route: SFO → ORD economy

@@ -1,0 +1,416 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #eef1f4;
+  --sidebar: #f7f8fa;
+  --ink: #111318;
+  --muted: #8a8f98;
+  --line: #eceef2;
+  --card: #ffffff;
+  --surface: #ffffff;
+  --chip: #f1f3f6;
+  --accent: #111318;
+  --accent-hover: #000000;
+  --accent-muted: #6b7280;
+  --accent-2: #374151;
+  --line-strong: #e2e5ea;
+  --ok: #3d6b4f;
+  --warn: #9a6b2f;
+  --bad: #9b4d4d;
+  --background: #ffffff;
+  --foreground: #111318;
+  --primary: #111318;
+  --primary-foreground: #ffffff;
+  --muted-foreground: #8a8f98;
+  --border: #eceef2;
+  --input: #eceef2;
+  --ring: #111318;
+  --radius: 1.25rem;
+  /* Body / secondary text on white (WCAG-friendly on cards) */
+  --text-muted: #4b5563;
+  --text-subtle: #374151;
+  --text-ink: #111318;
+}
+
+html,
+body {
+  background: var(--bg);
+  color: var(--ink);
+}
+
+[data-copilotkit] {
+  --background: var(--card);
+  --foreground: var(--ink);
+  --primary: var(--accent);
+  --primary-foreground: #ffffff;
+  /* shadcn/CopilotKit: --muted is a subtle background, not body text */
+  --muted: #f1f3f6;
+  --muted-foreground: #4b5563;
+  --text-muted: #4b5563;
+  --text-subtle: #374151;
+  --border: var(--line);
+  --input: var(--line);
+  --ring: var(--accent);
+  --radius: 0.75rem;
+  color: var(--ink);
+}
+
+[data-copilotkit] a {
+  color: var(--accent-2);
+}
+
+/* Chat: suggestion pills + send — avoid white-on-white */
+[data-copilotkit] button[data-slot="suggestion-pill"] {
+  height: 2rem !important;
+  min-height: 2rem !important;
+  max-height: 2rem !important;
+  width: auto !important;
+  flex: 0 0 auto !important;
+  aspect-ratio: auto !important;
+  background: var(--surface) !important;
+  color: var(--text-ink) !important;
+  border: 1px solid var(--line-strong) !important;
+  border-radius: 999px !important;
+  padding: 0 0.85rem !important;
+  font-size: 12px !important;
+  font-weight: 500;
+  line-height: 1 !important;
+  white-space: nowrap !important;
+}
+
+[data-copilotkit] button[data-slot="suggestion-pill"]:hover:not(:disabled) {
+  background: var(--chip) !important;
+  border-color: var(--accent-muted) !important;
+  color: var(--text-ink) !important;
+}
+
+[data-copilotkit] button[data-slot="suggestion-pill"]:disabled {
+  opacity: 0.55 !important;
+}
+
+/* Tool cards: CopilotKit disabled styles use near-white bg — override */
+[data-copilotkit] .studio-tool-card button.approval-hitl-approve,
+[data-copilotkit] .studio-tool-card button.email-draft-copy,
+[data-copilotkit] .studio-tool-card button.studio-btn-primary {
+  background-color: var(--accent) !important;
+  color: #ffffff !important;
+  border: 1px solid var(--accent-hover) !important;
+  opacity: 1 !important;
+  box-shadow: 0 1px 2px rgb(44 42 38 / 0.12);
+  font-weight: 600;
+}
+
+[data-copilotkit] .studio-tool-card button.approval-hitl-approve:hover:not(:disabled),
+[data-copilotkit] .studio-tool-card button.email-draft-copy:hover:not(:disabled),
+[data-copilotkit] .studio-tool-card button.studio-btn-primary:hover:not(:disabled) {
+  background-color: var(--accent-hover) !important;
+}
+
+[data-copilotkit] .studio-tool-card button.approval-hitl-approve:disabled,
+[data-copilotkit] .studio-tool-card button.studio-btn-primary:disabled {
+  background-color: #4b5563 !important;
+  color: #ffffff !important;
+  border-color: #374151 !important;
+  opacity: 1 !important;
+  cursor: wait !important;
+}
+
+[data-copilotkit] .studio-tool-card button.approval-hitl-deny,
+[data-copilotkit] .studio-tool-card button.studio-btn-secondary {
+  background-color: var(--surface) !important;
+  color: var(--text-ink) !important;
+  border: 1px solid var(--line-strong) !important;
+  opacity: 1 !important;
+  font-weight: 600;
+}
+
+[data-copilotkit] .studio-tool-card button.approval-hitl-deny:hover:not(:disabled),
+[data-copilotkit] .studio-tool-card button.studio-btn-secondary:hover:not(:disabled) {
+  background-color: var(--bg) !important;
+}
+
+[data-copilotkit] .studio-tool-card button.approval-hitl-deny:disabled,
+[data-copilotkit] .studio-tool-card button.studio-btn-secondary:disabled {
+  background-color: var(--chip) !important;
+  color: var(--text-muted) !important;
+  border-color: var(--line-strong) !important;
+  opacity: 1 !important;
+  cursor: wait !important;
+}
+
+/* Chat input send */
+[data-copilotkit] button[data-slot="button"].cpk\:bg-black:not(:disabled) {
+  background: var(--accent) !important;
+  color: #ffffff !important;
+}
+
+[data-copilotkit] button[data-slot="button"].cpk\:bg-black:disabled {
+  background: #9ca3af !important;
+  color: var(--text-ink) !important;
+  opacity: 1 !important;
+}
+
+.studio-tool-card {
+  color: var(--text-ink);
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  box-shadow:
+    0 1px 2px rgb(44 42 38 / 0.06),
+    0 4px 12px rgb(44 42 38 / 0.08);
+}
+
+/* Never use var(--muted) for text inside CopilotKit — it is a bg token there. */
+.studio-card-kicker {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-subtle);
+}
+
+.studio-card-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-ink);
+}
+
+.studio-card-value {
+  font-size: 1.5rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-ink);
+}
+
+.studio-card-note {
+  font-size: 0.75rem;
+  line-height: 1.35;
+  color: var(--text-muted);
+}
+
+[data-copilotkit] .studio-tool-card {
+  color: var(--text-ink);
+}
+
+[data-copilotkit] .studio-tool-card .studio-card-kicker {
+  color: var(--text-subtle) !important;
+}
+
+[data-copilotkit] .studio-tool-card .studio-card-label,
+[data-copilotkit] .studio-tool-card .studio-card-value,
+[data-copilotkit] .email-draft-card .email-draft-header p,
+[data-copilotkit] .email-draft-card dd,
+[data-copilotkit] .email-draft-card .email-draft-body {
+  color: var(--text-ink) !important;
+}
+
+[data-copilotkit] .studio-tool-card .studio-card-note,
+[data-copilotkit] .studio-tool-card .approval-hitl-muted,
+[data-copilotkit] .email-draft-card dt {
+  color: var(--text-muted) !important;
+}
+
+[data-copilotkit] .studio-tool-card .approval-hitl-title {
+  color: var(--text-ink) !important;
+}
+
+[data-copilotkit] .studio-tool-card .approval-hitl-hint {
+  color: var(--text-muted) !important;
+}
+
+/* Chat thread copy */
+[data-copilotkit] [data-message-role="assistant"] {
+  color: var(--text-ink);
+}
+
+[data-copilotkit] [data-message-role="user"] {
+  color: var(--text-ink);
+}
+
+.studio-btn-primary {
+  color: #ffffff;
+  background: var(--accent);
+  border: 1px solid var(--accent-hover);
+  box-shadow: 0 1px 2px rgb(44 42 38 / 0.12);
+  font-weight: 600;
+}
+
+.studio-btn-primary:hover:not(:disabled) {
+  background: var(--accent-hover);
+}
+
+.studio-btn-primary:disabled {
+  background: #4b5563;
+  color: #ffffff;
+  opacity: 1;
+  cursor: wait;
+}
+
+.studio-btn-secondary {
+  color: var(--text-ink);
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  box-shadow: 0 1px 2px rgb(44 42 38 / 0.06);
+  font-weight: 600;
+}
+
+.studio-btn-secondary:hover:not(:disabled) {
+  background: var(--bg);
+  border-color: var(--accent-muted);
+}
+
+.studio-btn-secondary:disabled {
+  background: var(--chip);
+  color: var(--text-muted);
+  opacity: 1;
+  cursor: wait;
+}
+
+.email-draft-card {
+  color: var(--ink);
+  background: var(--surface);
+}
+
+.email-draft-card dt {
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.email-draft-card dd,
+.email-draft-card p {
+  color: var(--ink);
+}
+
+.email-draft-card .email-draft-header {
+  color: var(--text-ink);
+  background: var(--chip);
+  border-bottom: 1px solid var(--line-strong);
+}
+
+.email-draft-card .email-draft-header p {
+  color: var(--text-ink);
+  font-weight: 700;
+}
+
+.email-draft-card .email-draft-copy {
+  color: #ffffff;
+  background: var(--accent);
+  border: 1px solid var(--accent-hover);
+  box-shadow: 0 1px 2px rgb(44 42 38 / 0.12);
+  font-weight: 600;
+}
+
+.email-draft-card .email-draft-copy:hover:not(:disabled) {
+  background: var(--accent-hover);
+}
+
+/* CopilotKit may auto-link addresses in tool UI — keep readable neutrals */
+.email-draft-card a,
+.email-draft-card a:visited {
+  color: var(--ink);
+  text-decoration: none;
+  pointer-events: none;
+}
+
+.approval-hitl-card {
+  color: var(--text-ink);
+  background: var(--surface);
+  border: 1px solid var(--line-strong) !important;
+  box-shadow:
+    0 1px 2px rgb(44 42 38 / 0.06),
+    0 4px 12px rgb(44 42 38 / 0.08);
+}
+
+.approval-hitl-card p,
+.approval-hitl-card .approval-hitl-title {
+  color: var(--text-ink);
+  font-size: 0.9375rem;
+}
+
+.approval-hitl-card .approval-hitl-muted {
+  color: var(--text-muted);
+}
+
+.approval-hitl-card .approval-hitl-hint {
+  color: #4b5563;
+  font-weight: 500;
+}
+
+.approval-hitl-card .approval-hitl-approve {
+  color: #ffffff;
+  background: var(--accent);
+  border: 1px solid var(--accent-hover);
+  box-shadow: 0 1px 2px rgb(44 42 38 / 0.12);
+  font-weight: 600;
+}
+
+.approval-hitl-card .approval-hitl-approve:hover:not(:disabled) {
+  background: var(--accent-hover);
+}
+
+.approval-hitl-card .approval-hitl-deny {
+  color: var(--text-ink);
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  box-shadow: 0 1px 2px rgb(44 42 38 / 0.06);
+  font-weight: 600;
+}
+
+.approval-hitl-card .approval-hitl-deny:hover:not(:disabled) {
+  background: var(--bg);
+}
+
+.plastic-card {
+  background: linear-gradient(145deg, #2a2e35 0%, #15181d 55%, #0d0f12 100%);
+  color: white;
+}
+
+.plastic-card.indigo {
+  background: linear-gradient(145deg, #3a3f4a 0%, #232830 55%, #16191e 100%);
+}
+
+.plastic-card.fuchsia {
+  background: linear-gradient(145deg, #4a4450 0%, #2c2830 50%, #1a171c 100%);
+}
+
+.hearth-hero {
+  min-height: 188px;
+}
+
+.studio-chat-panel {
+  display: flex;
+  height: 100%;
+  min-height: 0;
+  flex-direction: column;
+}
+
+.studio-chat-panel > * {
+  display: flex;
+  min-height: 0;
+  flex: 1;
+  flex-direction: column;
+}
+
+/* Never stretch CopilotKit internals to 100% — that turns rounded-full
+   suggestion pills into giant circles. */
+.studio-chat-panel [data-slot="suggestion-pill"] {
+  height: 2rem !important;
+  min-height: 2rem !important;
+  max-height: 2rem !important;
+  width: auto !important;
+  flex: 0 0 auto !important;
+  aspect-ratio: auto !important;
+  border-radius: 999px !important;
+  padding: 0 0.85rem !important;
+  white-space: nowrap !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  line-height: 1 !important;
+}
+
+.studio-chat-panel [data-testid="copilot-welcome-screen"] h1 {
+  max-width: 20rem;
+  margin-inline: auto;
+  font-size: 1.05rem !important;
+  font-weight: 600 !important;
+  line-height: 1.45 !important;
+}

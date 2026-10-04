@@ -1,0 +1,20 @@
+[project]
+name = "agui-studio-documents"
+version = "0.1.0"
+description = "Agno documents agent for AG-UI Studio"
+requires-python = ">=3.12"
+dependencies = [
+  "agno>=2.6.0",
+  "openai>=1.88.0",
+  "fastapi>=0.115.13",
+  "python-multipart>=0.0.20",
+  "uvicorn>=0.34.3",
+  "ag-ui-protocol>=0.1.8",
+  "python-dotenv>=1.0.0",
+  "pypdf>=4.0.0",
+  "sqlalchemy>=2.0.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

@@ -1,0 +1,11 @@
+langchain==1.4.0
+langgraph==1.2.11
+langsmith==0.7.33
+openai>=1.88.0
+python-dotenv>=1.0.0
+langgraph-cli[inmem]==0.4.21
+langchain-openai==1.1.9
+copilotkit==0.1.96
+ag-ui-langgraph[fastapi]==0.0.44
+ag-ui-protocol==0.1.22
+langgraph-api==0.7.101
