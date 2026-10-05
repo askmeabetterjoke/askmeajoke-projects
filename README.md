@@ -18,6 +18,8 @@ Open [http://localhost:3100/](http://localhost:3100/).
 
 Set **Root Directory** to this folder if deploying from the CopilotKit monorepo, or deploy this directory as its own project with npm `@copilotkit/*` dependencies.
 
-Required env vars (see `.env.example`): `OPENAI_API_KEY`, `LANGGRAPH_DEPLOYMENT_URL` (or `builtin`), `LANGSMITH_API_KEY`, `AGENT_URL` for Agno.
+Required env vars (see `.env.example`): `OPENAI_API_KEY`, `LANGGRAPH_DEPLOYMENT_URL` (LangSmith Cloud URL or `builtin`), `LANGSMITH_API_KEY`, `AGENT_URL` for hosted Agno AgentOS.
 
-Agents (LangGraph + Agno) must be hosted separately for production; Vercel runs the Next.js app only.
+**Hosted backends:** LangGraph → [LangSmith Deployments](https://docs.langchain.com/langsmith/deploy-to-cloud). Agno → deploy **AgentOS** (e.g. Railway/AWS); [os.agno.com](https://os.agno.com) is the control plane, not the CopilotKit HTTP endpoint. Details: [docs/DEPLOYMENT_HOSTING.md](docs/DEPLOYMENT_HOSTING.md).
+
+Vercel runs the Next.js app only; agent processes must be reachable over HTTPS.
