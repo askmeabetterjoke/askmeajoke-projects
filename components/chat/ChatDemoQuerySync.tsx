@@ -7,16 +7,18 @@ import { useChatDemo } from "./ChatDemoProvider";
 /** Applies ?demo=dry and ?preflight=1 query flags on the home chat route. */
 export function ChatDemoQuerySync() {
   const searchParams = useSearchParams();
-  const demo = useChatDemo();
+  const { setDryRun, setDemoOpen } = useChatDemo();
 
+  // Apply URL flags only when the query string changes — do not depend on full
+  // demo context or toggling dry run off gets overwritten immediately.
   useEffect(() => {
     if (searchParams.get("demo") === "dry") {
-      demo.setDryRun(true);
+      setDryRun(true);
     }
     if (searchParams.get("preflight") === "1") {
-      demo.setDemoOpen(true);
+      setDemoOpen(true);
     }
-  }, [demo, searchParams]);
+  }, [searchParams, setDryRun, setDemoOpen]);
 
   return null;
 }

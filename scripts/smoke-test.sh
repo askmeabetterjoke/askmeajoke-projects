@@ -28,8 +28,12 @@ done
 loc=$(curl -sfI "$BASE/analytics" 2>/dev/null | rg -i "^location:" | tr -d '\r' || true)
 [[ "$loc" == *"/"* ]] && ok "GET /analytics redirects home" || bad "GET /analytics redirect ($loc)"
 
-code=$(curl -sf -o /dev/null -w "%{http_code}" "$LG/ok" || echo "000")
-[[ "$code" == "200" ]] && ok "LangGraph /ok → $code" || bad "LangGraph /ok → $code"
+if [[ "${PROD_SMOKE:-}" == "1" ]]; then
+  note "PROD_SMOKE=1 — skipping local LangGraph /ok (production uses builtin or remote deploy)"
+else
+  code=$(curl -sf -o /dev/null -w "%{http_code}" "$LG/ok" || echo "000")
+  [[ "$code" == "200" ]] && ok "LangGraph /ok → $code" || bad "LangGraph /ok → $code"
+fi
 
 code=$(curl -sf -o /dev/null -w "%{http_code}" "$AGNO/docs" || echo "000")
 if [[ "$code" == "200" ]]; then

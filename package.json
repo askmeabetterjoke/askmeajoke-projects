@@ -12,6 +12,8 @@
     "start": "next start --port 3100",
     "check-types": "tsc --noEmit",
     "smoke": "bash scripts/smoke-test.sh",
+    "smoke:prod": "STUDIO_URL=https://agui-studio.vercel.app PROD_SMOKE=1 bash scripts/smoke-test.sh",
+    "test:e2e:prod": "CI=1 STUDIO_URL=https://agui-studio.vercel.app playwright test",
     "test:e2e": "playwright test",
     "preflight": "bash scripts/preflight-demo.sh"
   },

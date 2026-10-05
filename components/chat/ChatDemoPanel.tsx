@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useState } from "react";
 import { useAgent, useCopilotKit } from "@copilotkit/react-core/v2";
 import { ChevronRight, Play, Sparkles, X } from "lucide-react";
@@ -25,6 +26,9 @@ function messageId() {
 export function ChatDemoPanel() {
   const finance = useFinance();
   const demo = useChatDemo();
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const { copilotkit } = useCopilotKit();
   const [runningId, setRunningId] = useState<string | null>(null);
   const [runningAll, setRunningAll] = useState(false);
@@ -153,13 +157,26 @@ export function ChatDemoPanel() {
           <p className="mt-1 text-[11px] leading-snug text-[var(--muted)]">
             {demo.dryRun
               ? "Dry run: switches tabs and filters only — no LLM calls."
-              : "Live run: uses LangGraph + Agno. Steps 7–10 need Approve in chat."}
+              : "Live run: LangGraph agents on the server. Steps 7–10 need Approve in chat."}
           </p>
           <label className="mt-2 flex cursor-pointer items-center gap-2 text-[11px] text-[var(--ink)]">
             <input
               type="checkbox"
               checked={demo.dryRun}
-              onChange={(e) => demo.setDryRun(e.target.checked)}
+              onChange={(e) => {
+                const checked = e.target.checked;
+                demo.setDryRun(checked);
+                const params = new URLSearchParams(searchParams.toString());
+                if (checked) {
+                  params.set("demo", "dry");
+                } else {
+                  params.delete("demo");
+                }
+                const qs = params.toString();
+                router.replace(qs ? `${pathname}?${qs}` : pathname, {
+                  scroll: false,
+                });
+              }}
               className="rounded border-[var(--line)]"
             />
             Dry run (no LLM)
