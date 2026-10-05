@@ -14,7 +14,7 @@ const TODAY = [
   "Run demo step 1 — context",
   "Step 4 — A2UI pie chart",
   "Step 6 — HITL AWS approval",
-  "Step 8 — Agno INV-2091",
+  "Step 8 — documents INV-2091",
 ];
 
 export function AppSidebar({ className }: { className?: string }) {

@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "concurrently -n ui,lg,agno -c blue,magenta,green \"pnpm dev:ui\" \"pnpm dev:langgraph\" \"pnpm dev:agno\"",
+    "dev": "concurrently -n ui,lg -c blue,magenta \"pnpm dev:ui\" \"pnpm dev:langgraph\"",
     "dev:ui": "next dev --turbopack --port 3100",
     "dev:langgraph": "cd agents/langgraph && (command -v uv >/dev/null && uv run langgraph dev --port 8123 --no-browser || .venv/bin/langgraph dev --port 8123 --no-browser)",
     "dev:agno": "cd agents/agno && (command -v uv >/dev/null && uv run python main.py || .venv/bin/python main.py)",

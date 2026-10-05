@@ -6,6 +6,7 @@ import {
   useHumanInTheLoop,
 } from "@copilotkit/react-core/v2";
 import { z } from "zod";
+import { findDemoInvoice } from "../../lib/demo-invoices";
 import { ledgerSummary } from "../../lib/invoice-ledger-store";
 import type { InvoiceSource } from "../../lib/invoice-ledger-store";
 import { useFinance } from "../finance/FinanceProvider";
@@ -26,6 +27,42 @@ export function DocumentsTools() {
       policy:
         "Receipts over $500 need a reason on approveExpense. Over $10,000 cite Northwind spend policy.",
       samples: ["INV-1042", "INV-2091", "INV-3300", "INV-5501"],
+    },
+  });
+
+  useFrontendTool({
+    name: "extract_invoice",
+    agentId: "documents",
+    description:
+      "Return structured invoice fields for demo sample ids INV-1042, INV-2091, INV-3300, INV-5501. Call before applyInvoiceToCanvas.",
+    parameters: z.object({
+      sample_id: z
+        .string()
+        .describe("Invoice id such as INV-1042 from the user message or PDF name"),
+      notes: z.string().optional(),
+    }),
+    handler: async ({ sample_id, notes }) => {
+      const inv = findDemoInvoice(sample_id);
+      if (inv) {
+        return JSON.stringify({
+          id: inv.id,
+          vendor: inv.vendor,
+          amount: inv.amount,
+          date: inv.date,
+          category: inv.category,
+          source: inv.source,
+          confidence: inv.confidence,
+          fileName: inv.fileName,
+          lineItems: inv.lineItems,
+        });
+      }
+      if (notes?.trim()) {
+        return JSON.stringify({ parsedFromAttachment: true, notes });
+      }
+      return JSON.stringify({
+        error: "unknown_sample",
+        hint: "Use INV-1042, INV-2091, INV-3300, INV-5501, or pass notes from attachment.",
+      });
     },
   });
 

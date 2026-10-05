@@ -12,3 +12,4 @@ next-env.d.ts
 /agents/**/__pycache__/
 /agents/**/tmp/
 /agents/langgraph/.langgraph_api/
+.vercel

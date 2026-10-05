@@ -1,4 +1,3 @@
-import { HttpAgent } from "@ag-ui/client";
 import {
   BuiltInAgent,
   CopilotRuntime,
@@ -7,10 +6,30 @@ import {
 } from "@copilotkit/runtime/v2";
 import { LangGraphAgent } from "@copilotkit/runtime/langgraph";
 import { AuditMiddleware, PolicyMiddleware } from "../../../../middleware/studio-middleware";
-import { analyticsPrompt } from "../../../../lib/prompts";
+import { analyticsPrompt, documentsPrompt } from "../../../../lib/prompts";
 import { resolveLlmConfig } from "../../../../lib/llm-config";
 
 const { model, apiKey } = resolveLlmConfig();
+
+const langgraphUrl = process.env.LANGGRAPH_DEPLOYMENT_URL;
+const langgraphDeployment =
+  langgraphUrl === "builtin" ? undefined : (langgraphUrl ?? "http://localhost:8123");
+const langsmithApiKey = process.env.LANGSMITH_API_KEY ?? "";
+
+function resolveAgent(
+  graphId: "analytics" | "documents",
+  builtIn: BuiltInAgent,
+): BuiltInAgent | LangGraphAgent {
+  if (langgraphUrl === "builtin") {
+    return builtIn;
+  }
+  return new LangGraphAgent({
+    deploymentUrl: langgraphDeployment!,
+    graphId,
+    langsmithApiKey,
+    assistantConfig: { recursion_limit: 100 },
+  });
+}
 
 const analyticsBuiltIn = new BuiltInAgent({
   model,
@@ -20,24 +39,16 @@ const analyticsBuiltIn = new BuiltInAgent({
 });
 analyticsBuiltIn.use(new PolicyMiddleware(), new AuditMiddleware("analytics"));
 
-const langgraphUrl = process.env.LANGGRAPH_DEPLOYMENT_URL;
-const analyticsAgent =
-  langgraphUrl === "builtin"
-    ? analyticsBuiltIn
-    : new LangGraphAgent({
-        deploymentUrl: langgraphUrl ?? "http://localhost:8123",
-        graphId: "analytics",
-        langsmithApiKey: process.env.LANGSMITH_API_KEY ?? "",
-        assistantConfig: { recursion_limit: 100 },
-      });
-
-const agentBase = (process.env.AGENT_URL ?? "http://localhost:8000").replace(
-  /\/$/,
-  "",
-);
-const documentsAgent = new HttpAgent({
-  url: `${agentBase}/documents/agui`,
+const documentsBuiltIn = new BuiltInAgent({
+  model,
+  apiKey,
+  prompt: documentsPrompt,
+  maxSteps: 10,
 });
+documentsBuiltIn.use(new PolicyMiddleware(), new AuditMiddleware("documents"));
+
+const analyticsAgent = resolveAgent("analytics", analyticsBuiltIn);
+const documentsAgent = resolveAgent("documents", documentsBuiltIn);
 
 const runtime = new CopilotRuntime({
   agents: {

@@ -159,7 +159,7 @@ export const CHAT_DEMO_STEPS: ChatDemoStep[] = [
     prompt:
       "I attached our AWS invoice PDF. openDashboard tab documents. Call extract_invoice for INV-1042, applyInvoiceToCanvas, then approveExpense with a policy reason for amount over $500.",
     presenterNote:
-      "Agno documents agent — PDF attachment + extract + canvas; approve on the HITL card.",
+      "LangGraph documents agent — extract + canvas; approve on the HITL card.",
     requiresHitl: true,
   },
   {
@@ -203,7 +203,7 @@ export const CHAT_DEMO_STEPS: ChatDemoStep[] = [
     prompt:
       "Open Charges and summarize document-approved rows (inv- prefix). Then use generate_a2ui BarChart of approved document spend by vendor.",
     presenterNote:
-      "Documents in via Agno, analytics charts out — shared product state.",
+      "Documents in via LangGraph documents, analytics charts out — shared product state.",
   },
   {
     id: "ag-ui-stream",

@@ -28,7 +28,7 @@ export function ChatPanel() {
         ? {
             title: "Northwind Copilot",
             welcome:
-              "Document intake (Agno): attach PDFs or ask to extract INV-1042, INV-2091, INV-3300, or INV-5501.",
+              "Document intake (LangGraph documents): attach PDFs or extract INV-1042, INV-2091, INV-3300, INV-5501.",
             placeholder: "Attach a PDF or describe an invoice…",
           }
         : {

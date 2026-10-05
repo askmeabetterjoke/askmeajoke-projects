@@ -1,6 +1,11 @@
 # AskMeAJoke Projects
 
-Northwind finance workspace: chat + dashboard with LangGraph **analytics** and Agno **documents** (PDF intake and expense approval).
+Northwind finance workspace: one chat UI, **two LangGraph agents** (`analytics` + `documents`) via CopilotKit and AG-UI.
+
+- **Analytics** — dashboards, filters, charts, charge HITL (`graphId: analytics`)
+- **Documents** — invoice extract, canvas, expense HITL (`graphId: documents`)
+
+Legacy **Agno** code under `agents/agno/` is optional; production uses LangGraph or built-in agents on Vercel.
 
 ## Run locally
 
@@ -12,14 +17,21 @@ pnpm --filter @copilotkit-examples/agui-studio setup:agents
 pnpm --filter @copilotkit-examples/agui-studio dev
 ```
 
-Open [http://localhost:3100/](http://localhost:3100/).
+Starts Next **3100** + LangGraph **8123** (both graphs). Open [http://localhost:3100/](http://localhost:3100/).
+
+Optional Agno (legacy): `pnpm --filter @copilotkit-examples/agui-studio dev:agno`
 
 ## Deploy (Vercel)
 
-Set **Root Directory** to this folder if deploying from the CopilotKit monorepo, or deploy this directory as its own project with npm `@copilotkit/*` dependencies.
+Set **Production** env:
 
-Required env vars (see `.env.example`): `OPENAI_API_KEY`, `LANGGRAPH_DEPLOYMENT_URL` (LangSmith Cloud URL or `builtin`), `LANGSMITH_API_KEY`, `AGENT_URL` for hosted Agno AgentOS.
+| Variable | Typical value |
+| --- | --- |
+| `OPENAI_API_KEY` | Your key |
+| `LANGGRAPH_DEPLOYMENT_URL` | `builtin` **or** LangSmith deployment URL |
+| `LANGSMITH_API_KEY` | Required when using LangSmith URL (not for `builtin`) |
 
-**Hosted backends:** LangGraph → [LangSmith Deployments](https://docs.langchain.com/langsmith/deploy-to-cloud). Agno → deploy **AgentOS** (e.g. Railway/AWS); [os.agno.com](https://os.agno.com) is the control plane, not the CopilotKit HTTP endpoint. Details: [docs/DEPLOYMENT_HOSTING.md](docs/DEPLOYMENT_HOSTING.md).
+With **`builtin`**, both agents run in the Next.js runtime (no separate LangGraph host).  
+With **LangSmith**, deploy `agents/langgraph/` — both `analytics` and `documents` graphs must be on the same deployment.
 
-Vercel runs the Next.js app only; agent processes must be reachable over HTTPS.
+See [docs/DEPLOYMENT_HOSTING.md](docs/DEPLOYMENT_HOSTING.md).

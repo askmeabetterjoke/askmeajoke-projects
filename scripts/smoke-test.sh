@@ -14,7 +14,7 @@ ok() { pass=$((pass + 1)); echo "✓ $*"; }
 bad() { fail=$((fail + 1)); echo "✗ $*"; }
 
 echo "=== AG-UI Studio smoke test ==="
-echo "UI=$BASE  LangGraph=$LG  Agno=$AGNO"
+echo "UI=$BASE  LangGraph=$LG  (Agno optional legacy: $AGNO)"
 echo
 
 code=$(curl -sf -o /dev/null -w "%{http_code}" "$BASE/" || echo "000")
@@ -32,13 +32,17 @@ code=$(curl -sf -o /dev/null -w "%{http_code}" "$LG/ok" || echo "000")
 [[ "$code" == "200" ]] && ok "LangGraph /ok → $code" || bad "LangGraph /ok → $code"
 
 code=$(curl -sf -o /dev/null -w "%{http_code}" "$AGNO/docs" || echo "000")
-[[ "$code" == "200" ]] && ok "Agno /docs → $code" || bad "Agno /docs → $code"
+if [[ "$code" == "200" ]]; then
+  ok "Agno /docs → $code (optional legacy)"
+else
+  note "Agno not running ($code) — documents use LangGraph graph documents on $LG"
+fi
 
 code=$(curl -sf -o /dev/null -w "%{http_code}" "$BASE/demo-pdfs/delta-receipt-sfo.pdf" || echo "000")
 [[ "$code" == "200" ]] && ok "Demo PDF static → $code" || bad "Demo PDF static → $code"
 
 info=$(curl -sf "$BASE/api/copilotkit/info" || echo "{}")
-echo "$info" | rg -q '"analytics".*LangGraphAgent' && ok "Runtime info lists LangGraph analytics agent" || bad "Runtime analytics agent missing"
+echo "$info" | rg -q '"analytics"' && ok "Runtime info lists analytics agent" || bad "Runtime analytics agent missing"
 echo "$info" | rg -q '"documents"' && ok "Runtime info lists documents agent" || bad "Runtime documents agent missing"
 echo "$info" | rg -q '"a2uiEnabled":true' && ok "A2UI enabled on runtime" || bad "A2UI not enabled"
 
