@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "@copilotkit/react-core/v2/styles.css";
 import "./globals.css";
+import "./hitl-buttons.css";
 import { Providers } from "../components/Providers";
 
 const geistSans = Geist({

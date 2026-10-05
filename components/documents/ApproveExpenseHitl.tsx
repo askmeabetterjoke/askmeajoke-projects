@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { money } from "../../lib/utils";
 import { approveInvoice, rejectInvoice } from "../../lib/invoice-ledger-store";
 import { useDocuments } from "./DocumentsProvider";
+import { HitlActionButtons } from "../finance/HitlActionButtons";
 
 type HitlStatus = "inProgress" | "executing" | "complete";
 
@@ -50,32 +51,19 @@ export function ApproveExpenseHitl({
         {vendor} · {money(amount)} · {id}
       </p>
       <p className="approval-hitl-title mt-2 text-[13px] leading-snug">{reason}</p>
-      <div className="mt-3 flex gap-2">
-        <button
-          type="button"
-          disabled={!canRespond}
-          className="approval-hitl-approve rounded-full border border-[#000000] bg-[#111318] px-4 py-1.5 text-xs font-semibold text-white shadow-sm disabled:cursor-wait disabled:border-[#374151] disabled:bg-[#4b5563] disabled:text-white disabled:opacity-100"
-          onClick={() => {
-            approveInvoice(id);
-            docs.refresh();
-            void respond?.({ approved: true, id });
-          }}
-        >
-          Approve
-        </button>
-        <button
-          type="button"
-          disabled={!canRespond}
-          className="approval-hitl-deny rounded-full border border-[var(--line-strong)] bg-white px-4 py-1.5 text-xs font-semibold text-[#111318] shadow-sm disabled:cursor-wait disabled:bg-[var(--chip)] disabled:text-[var(--text-muted)] disabled:opacity-100"
-          onClick={() => {
-            rejectInvoice(id);
-            docs.refresh();
-            void respond?.({ approved: false, id });
-          }}
-        >
-          Deny
-        </button>
-      </div>
+      <HitlActionButtons
+        canRespond={canRespond}
+        onApprove={() => {
+          approveInvoice(id);
+          docs.refresh();
+          void respond?.({ approved: true, id });
+        }}
+        onDeny={() => {
+          rejectInvoice(id);
+          docs.refresh();
+          void respond?.({ approved: false, id });
+        }}
+      />
     </div>
   );
 }

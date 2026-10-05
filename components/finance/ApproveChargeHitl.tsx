@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { matchChargeRef } from "../../lib/charge-match";
 import { money } from "../../lib/utils";
 import { useFinance } from "./FinanceProvider";
+import { HitlActionButtons } from "./HitlActionButtons";
 
 type HitlStatus = "inProgress" | "executing" | "complete";
 
@@ -62,36 +63,21 @@ export function ApproveChargeHitl({
       <p className="approval-hitl-hint mt-2 text-xs">
         The Charges tab on the right is focused on this row.
       </p>
-      <div className="mt-3 flex gap-2">
-        <button
-          type="button"
-          disabled={!canRespond}
-          aria-busy={status === "inProgress"}
-          className="approval-hitl-approve rounded-full border border-[#000000] bg-[#111318] px-4 py-1.5 text-xs font-semibold text-white shadow-sm disabled:cursor-wait disabled:border-[#374151] disabled:bg-[#4b5563] disabled:text-white disabled:opacity-100"
-          onClick={() => {
-            if (!canRespond) return;
-            finance.approveCharge(ref, amount || undefined);
-            void respond(
-              `Alex approved ${matched?.id ?? ref} (${label}). Marked Approved.`,
-            );
-          }}
-        >
-          Approve
-        </button>
-        <button
-          type="button"
-          disabled={!canRespond}
-          className="approval-hitl-deny rounded-full border border-[var(--line-strong)] bg-white px-4 py-1.5 text-xs font-semibold text-[#111318] shadow-sm disabled:cursor-wait disabled:bg-[var(--chip)] disabled:text-[var(--text-muted)] disabled:opacity-100"
-          onClick={() => {
-            if (!canRespond) return;
-            void respond(
-              `Alex denied ${matched?.id ?? ref}. Left unchanged pending review.`,
-            );
-          }}
-        >
-          Deny
-        </button>
-      </div>
+      <HitlActionButtons
+        canRespond={canRespond}
+        busy={status === "inProgress"}
+        onApprove={() => {
+          finance.approveCharge(ref, amount || undefined);
+          void respond!(
+            `Alex approved ${matched?.id ?? ref} (${label}). Marked Approved.`,
+          );
+        }}
+        onDeny={() => {
+          void respond!(
+            `Alex denied ${matched?.id ?? ref}. Left unchanged pending review.`,
+          );
+        }}
+      />
       {status === "inProgress" ? (
         <p className="approval-hitl-muted mt-2 text-xs">
           Preparing approval… buttons activate in a moment.

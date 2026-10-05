@@ -41,7 +41,10 @@ body {
 [data-copilotkit] {
   --background: var(--card);
   --foreground: var(--ink);
-  --primary: var(--accent);
+  /* CopilotKit v2 styles.css sets --accent to a light gray; keep Northwind ink */
+  --accent: #111318;
+  --accent-foreground: #ffffff;
+  --primary: #111318;
   --primary-foreground: #ffffff;
   /* shadcn/CopilotKit: --muted is a subtle background, not body text */
   --muted: #f1f3f6;
@@ -50,7 +53,7 @@ body {
   --text-subtle: #374151;
   --border: var(--line);
   --input: var(--line);
-  --ring: var(--accent);
+  --ring: #111318;
   --radius: 0.75rem;
   color: var(--ink);
 }
@@ -343,15 +346,15 @@ body {
 }
 
 .approval-hitl-card .approval-hitl-approve {
-  color: #ffffff;
-  background: var(--accent);
-  border: 1px solid var(--accent-hover);
+  color: #ffffff !important;
+  background-color: #111318 !important;
+  border: 1px solid #000000 !important;
   box-shadow: 0 1px 2px rgb(44 42 38 / 0.12);
   font-weight: 600;
 }
 
 .approval-hitl-card .approval-hitl-approve:hover:not(:disabled) {
-  background: var(--accent-hover);
+  background-color: #000000 !important;
 }
 
 .approval-hitl-card .approval-hitl-deny {
