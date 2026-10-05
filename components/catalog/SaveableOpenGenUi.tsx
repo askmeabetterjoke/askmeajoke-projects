@@ -1,9 +1,7 @@
 "use client";
 
-import {
-  OpenGenerativeUIActivityRenderer,
-  type OpenGenerativeUIContent,
-} from "@copilotkit/react-core/v2";
+import type { OpenGenerativeUIContent } from "@copilotkit/react-core/v2";
+import { StudioOpenGenerativeUIActivityRenderer } from "../open-gen-ui/StudioOpenGenerativeUIRenderer";
 import { useEffect, useState } from "react";
 import { hashContent } from "../../lib/ui-catalog-store";
 import { useUiCatalog } from "./UiCatalogProvider";
@@ -61,7 +59,7 @@ export function SaveableOpenGenUi({
 
   return (
     <div className="space-y-2">
-      <OpenGenerativeUIActivityRenderer
+      <StudioOpenGenerativeUIActivityRenderer
         activityType={activityType}
         content={content}
         message={message}

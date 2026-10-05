@@ -8,8 +8,10 @@ Visual style:
 - Use tabular-nums for currency and percentages.
 
 Charts and data:
-- For pie, donut, or custom chart types not in the A2UI catalog, use Chart.js from CDN inside the generated HTML:
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+- For doughnut/pie charts: include a <canvas id="chargeChart"></canvas> in html (min-height ~220px).
+- Put Chart.js initialization in jsExpressions (not inline <script src> tags). The host preloads Chart.js before jsExpressions run.
+- Example jsExpressions item (adjust data from agent context chargeRollup.byStatus when available):
+  "new Chart(document.getElementById('chargeChart'), { type: 'doughnut', data: { labels: ['Approved','Pending','Flagged','Over-Limit'], datasets: [{ data: [62,14,8,16], backgroundColor: ['#111318','#6b7280','#9ca3af','#d1d5db'] }] }, options: { plugins: { legend: { position: 'bottom' } } } });"
 - Prefer pie or doughnut when the user asks for share/breakdown by category; use bar when comparing magnitudes across many items.
 - Include a short title + subtitle, formatted currency ($24,800), and a compact legend.
 - Fit charts in ~320–420px height; responsive width 100%.
