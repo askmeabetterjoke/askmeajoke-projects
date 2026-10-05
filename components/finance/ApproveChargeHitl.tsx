@@ -67,7 +67,7 @@ export function ApproveChargeHitl({
           type="button"
           disabled={!canRespond}
           aria-busy={status === "inProgress"}
-          className="approval-hitl-approve studio-btn-primary rounded-full px-4 py-1.5 text-xs"
+          className="approval-hitl-approve rounded-full border border-[#000000] bg-[#111318] px-4 py-1.5 text-xs font-semibold text-white shadow-sm disabled:cursor-wait disabled:border-[#374151] disabled:bg-[#4b5563] disabled:text-white disabled:opacity-100"
           onClick={() => {
             if (!canRespond) return;
             finance.approveCharge(ref, amount || undefined);
@@ -81,7 +81,7 @@ export function ApproveChargeHitl({
         <button
           type="button"
           disabled={!canRespond}
-          className="approval-hitl-deny studio-btn-secondary rounded-full px-4 py-1.5 text-xs"
+          className="approval-hitl-deny rounded-full border border-[var(--line-strong)] bg-white px-4 py-1.5 text-xs font-semibold text-[#111318] shadow-sm disabled:cursor-wait disabled:bg-[var(--chip)] disabled:text-[var(--text-muted)] disabled:opacity-100"
           onClick={() => {
             if (!canRespond) return;
             void respond(

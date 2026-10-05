@@ -54,7 +54,7 @@ export function ApproveExpenseHitl({
         <button
           type="button"
           disabled={!canRespond}
-          className="rounded-full bg-[var(--ink)] px-4 py-1.5 text-xs font-medium text-white disabled:opacity-40"
+          className="approval-hitl-approve rounded-full border border-[#000000] bg-[#111318] px-4 py-1.5 text-xs font-semibold text-white shadow-sm disabled:cursor-wait disabled:border-[#374151] disabled:bg-[#4b5563] disabled:text-white disabled:opacity-100"
           onClick={() => {
             approveInvoice(id);
             docs.refresh();
@@ -66,7 +66,7 @@ export function ApproveExpenseHitl({
         <button
           type="button"
           disabled={!canRespond}
-          className="rounded-full border border-[var(--line)] px-4 py-1.5 text-xs font-medium disabled:opacity-40"
+          className="approval-hitl-deny rounded-full border border-[var(--line-strong)] bg-white px-4 py-1.5 text-xs font-semibold text-[#111318] shadow-sm disabled:cursor-wait disabled:bg-[var(--chip)] disabled:text-[var(--text-muted)] disabled:opacity-100"
           onClick={() => {
             rejectInvoice(id);
             docs.refresh();

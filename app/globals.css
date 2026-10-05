@@ -88,37 +88,44 @@ body {
   opacity: 0.55 !important;
 }
 
-/* Tool cards: CopilotKit disabled styles use near-white bg — override */
+/* Tool cards: CopilotKit preflight uses transparent button bg — force contrast */
+[data-copilotkit] button.approval-hitl-approve,
 [data-copilotkit] .studio-tool-card button.approval-hitl-approve,
 [data-copilotkit] .studio-tool-card button.email-draft-copy,
 [data-copilotkit] .studio-tool-card button.studio-btn-primary {
-  background-color: var(--accent) !important;
+  background-color: #111318 !important;
   color: #ffffff !important;
-  border: 1px solid var(--accent-hover) !important;
+  -webkit-text-fill-color: #ffffff !important;
+  border: 1px solid #000000 !important;
   opacity: 1 !important;
   box-shadow: 0 1px 2px rgb(44 42 38 / 0.12);
   font-weight: 600;
 }
 
+[data-copilotkit] button.approval-hitl-approve:hover:not(:disabled),
 [data-copilotkit] .studio-tool-card button.approval-hitl-approve:hover:not(:disabled),
 [data-copilotkit] .studio-tool-card button.email-draft-copy:hover:not(:disabled),
 [data-copilotkit] .studio-tool-card button.studio-btn-primary:hover:not(:disabled) {
-  background-color: var(--accent-hover) !important;
+  background-color: #000000 !important;
 }
 
+[data-copilotkit] button.approval-hitl-approve:disabled,
 [data-copilotkit] .studio-tool-card button.approval-hitl-approve:disabled,
 [data-copilotkit] .studio-tool-card button.studio-btn-primary:disabled {
   background-color: #4b5563 !important;
   color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
   border-color: #374151 !important;
   opacity: 1 !important;
   cursor: wait !important;
 }
 
+[data-copilotkit] button.approval-hitl-deny,
 [data-copilotkit] .studio-tool-card button.approval-hitl-deny,
 [data-copilotkit] .studio-tool-card button.studio-btn-secondary {
-  background-color: var(--surface) !important;
-  color: var(--text-ink) !important;
+  background-color: #ffffff !important;
+  color: #111318 !important;
+  -webkit-text-fill-color: #111318 !important;
   border: 1px solid var(--line-strong) !important;
   opacity: 1 !important;
   font-weight: 600;
